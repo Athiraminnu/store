@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/91011c3d1d.js"></script>
+
+    <title>LOGIN</title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="container  ">
+        <div class="row mt-5">
+            <div class="col-4 offset-4 my-5 bg-warning">
+                <h1 style="text-align:center; font-size:70px"><i class="fa-solid fa-user"></i></h1>
+                    <h2 class="text-center mt-5">LOGIN</h2>
+                    <div class="form-group mt-3 mb-2" >
+                        <label for="userid" class="p-2">User Name : </label>
+                        <input type="text" class="form-control py-3 px-2 " name="username" id="userid" placeholder="username" required>
+                    </div>
+                    <div class="form-group my-3 mb-2">
+                         <label for="pswd" class="p-2">Password : </label>
+                        <input type="password" class="form-control  py-3 px-2" id="pswd" name="password" required >
+                    </div>
+                    <a href="register">New User? Register Now</a>
+                    <button type="submit" class="btn btn-primary float-right mb-3">Login</button>
+                  </div>
+        </div>
+    </div>
+</form>
+
+<div class="text-center m-3">
+    {% for msg in messages %}
+    <h6> {{msg}} </h6>
+    {% endfor %}
+</div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/91011c3d1d.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            var $select1=$('#select1'),
+                  $select2=$('#select2'),
+                  $options=$select2.find('option');
+                  $select1.on('change',function()
+                  {
+                    $select2.html($options.filter('[value="'+this.value+'"]'));
+                  }).trigger('change');
+        });
+    </script>
+
+    <title>form</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-secondary">
+    <ul class="navbar-nav ml-auto">
+        {% if user.is_authenticated %}
+           <h5 class="text-white m-1 mr-2"> <li>Hello {{user.username}}</li></h5>
+        {% endif %}
+         <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+    </ul>
+</nav>
+
+    <form action="msg" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="container">
+            <div class="row mt-3">
+                <div class="col-8 offset-2  my-5 bg-warning">
+                        <h2 class="text-center mt-5">FORM</h2>
+
+                        <div class="form">
+                            <div class="form-group">
+                                <label for="userid" class="p-2">Name : </label>
+                                <input type="text" class="form-control py-3 px-2 " name="name" id="userid" placeholder="Name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="dob" class="p-2">DOB : </label>
+                                <input type="date" class="form-control  py-3 px-2" id="dob" name="dob" required >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="age" class="p-2">AGE : </label>
+                                <input type="number" class="form-control  py-3 px-2" id="age" name="age" required >
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="gender" class="p-2">GENDER : </label>
+                                <input type="text" class="form-control  py-3 px-2" name="gender" id="gender" required >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="pno" class="p-2">PHONE NUMBER : </label>
+                                <input type="tel" class="form-control  py-3 px-2" name="pno" id="pno" required >
+                            </div>
+                        </div>
+
+                        <div class="form">
+                            <div class="form-group">
+                                <label for="email" class="p-2">EMAIL ID : </label>
+                                <input type="email" class="form-control  py-3 px-2" name="email" id="email" required >
+                            </div>
+                        </div>
+
+                        <div class="form">
+                            <div class="form-group">
+                                <label for="add" class="p-2">ADDRESS : </label>
+                                <textarea class="form-control  py-3 px-2" name="add"  id="add" required ></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row" >
+                            <div class="form-group col-md-6" >
+                                <label>SELECT DEPARTMENT :</label>
+                                <select id="select1" class="form-control">
+                                    <option selected>select</option>
+                                    {% for i in dept %}
+                                    <option value="{{i.dpt_id}}">{{i.d_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6" >
+                                <label>Course :</label>
+                                <select id="select2" class="form-control">
+                                    <option selected>select</option>
+                                    {% for i in sub %}
+                                    <option value="{{i.dpt_id}}">{{i.c_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6" >
+                            <label for="inputpur">Purpose : </label>
+                                <select id="inputpur" class="form-control" >
+                                    <option selected>Choose...</option>
+                                    <option>For Enquiry</option>
+                                    <option>Place Order</option>
+                                    <option>Return</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6 mt-4" >
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                <label class="form-check-label m-1" for="inlineCheckbox1">Debit Notebook</label>
+
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" >
+                                <label class="form-check-label m-1" for="inlineCheckbox2">Pen</label>
+
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                                <label class="form-check-label m-1" for="inlineCheckbox3">Exam Papers</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary my-3 float-right  py-2 px-2" onclick="message">submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="text-center m-3">
+        {% for msg in messages %}
+        <h6> {{msg}} </h6>
+        <a href="/">Return to Home Page</a>
+        {% endfor %}
+    </div>
+</body>
+</html>
